@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">
+        <!-- possibility to add logo: -->
+        <!-- <img src="assets/images/edhouse_logo.png" width="100%" height="100%" class="d-inline-block align-top"
+        alt=""> -->
+        Privileges settings
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/roles-users"><b>Roles and users</b></a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/privileges"><b>Privileges</b></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="buttons">
+        <button class="btn btn-success">Save</button>
+        <button class="btn btn-secondary">Cancel</button>
+    </div>
+
+</nav>

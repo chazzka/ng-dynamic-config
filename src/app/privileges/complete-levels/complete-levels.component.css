@@ -1,0 +1,12 @@
+.card {
+    margin-top: 125px;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 700px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
