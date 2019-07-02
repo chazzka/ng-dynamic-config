@@ -1,31 +1,22 @@
-
-
-
 <div class="card">
-        <h5 class="card-header">Specific level and specific items</h5>
-        <div class="card-body">        
-                <div class="row">
-                        <div class="col-5">
-                            <select class="custom-select" id="">
-                                <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="col-3">
-                            <button class="btn btn-info">Refresh</button>
-                        </div>
-                    </div>
-            
-                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
-
-                            tady bude ta tabulka 
-
-
-                    </div>
-                    
-                    
-    
+    <h5 class="card-header">Specific level and specific items</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-5">
+                <select class="custom-select" id="">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
         </div>
+
+        <br>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <ngx-treeview [items]="items" [config]="config">
+            </ngx-treeview>
+        </div>
+
     </div>
+</div>

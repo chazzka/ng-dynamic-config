@@ -14,6 +14,7 @@ import { RoleSelectComponent } from './privileges/role-select/role-select.compon
 import { OperationalPrivilegesComponent } from './privileges/operational-privileges/operational-privileges.component';
 import { CompleteLevelsComponent } from './privileges/complete-levels/complete-levels.component';
 import { SpecificItemsComponent } from './privileges/specific-items/specific-items.component';
+import { TreeviewModule } from 'ngx-treeview';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SpecificItemsComponent } from './privileges/specific-items/specific-ite
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TreeviewModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

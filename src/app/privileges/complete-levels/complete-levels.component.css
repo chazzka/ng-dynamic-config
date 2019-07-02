@@ -1,5 +1,5 @@
-.card {
-    margin-top: 125px;
+.margin {
+    margin-top: 130px;
 }
 
 .my-custom-scrollbar {
@@ -9,4 +9,9 @@
 }
 .table-wrapper-scroll-y {
     display: block;
+}
+
+h4 {
+    line-height: 18px;
+    color: gray;
 }
