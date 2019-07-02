@@ -15,6 +15,7 @@ import { OperationalPrivilegesComponent } from './privileges/operational-privile
 import { CompleteLevelsComponent } from './privileges/complete-levels/complete-levels.component';
 import { SpecificItemsComponent } from './privileges/specific-items/specific-items.component';
 import { TreeviewModule } from 'ngx-treeview';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,12 +30,13 @@ import { TreeviewModule } from 'ngx-treeview';
     RoleSelectComponent,
     OperationalPrivilegesComponent,
     CompleteLevelsComponent,
-    SpecificItemsComponent
+    SpecificItemsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    TreeviewModule.forRoot()
+    TreeviewModule.forRoot(),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

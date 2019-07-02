@@ -12,7 +12,6 @@ export class SpecificItemsComponent implements OnInit {
 
   items: TreeviewItem[] = [];
 
-//TODO: TADY SI POHRAJ S CONFIGEM
   config = TreeviewConfig.create({
     hasAllCheckBox: true,
     hasFilter: true,

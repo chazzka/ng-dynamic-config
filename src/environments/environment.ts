@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  completePrivilegesUrl: 'http://agata.onsemi.com:60071/dynamic-configuration-business/api/privileges/complete?applicationName=MAPPER'
 };
 
 /*
