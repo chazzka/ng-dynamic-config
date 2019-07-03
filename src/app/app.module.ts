@@ -16,6 +16,8 @@ import { CompleteLevelsComponent } from './privileges/complete-levels/complete-l
 import { SpecificItemsComponent } from './privileges/specific-items/specific-items.component';
 import { TreeviewModule } from 'ngx-treeview';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './ngrx/reducers/user.reducer';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,10 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     TreeviewModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({
+      user: reducer
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
