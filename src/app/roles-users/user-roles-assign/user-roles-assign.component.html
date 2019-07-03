@@ -2,23 +2,24 @@
     <h5 class="card-header">User roles assign</h5>
     <div class="card-body">
         User:
-        <select class="custom-select" id="inputGroupSelect02">
-            <option selected>Choose...</option>
+        <select class="custom-select" id="user-roles-assign-select">
+            <option *ngFor="let user of users | async" value="{{user.dbID}}">{{user.fullName}}</option>
+            <!-- <option selected>Choose...</option>
             <option value="1">One</option>
             <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option value="3">Three</option> -->
         </select>
 
         <hr>
         <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <h5>Roles</h5>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="rolesCheck1">
-                <label class="form-check-label" for="rolesCheck1">
-                    Default checkbox
+            <div *ngFor="let role of rolesWithPrivilege | async" class="form-check">
+                <input class="form-check-input" type="checkbox" value="{{role.dbID}}" id="{{role.dbID}}">
+                <label class="form-check-label" for="{{role.dbID}}">
+                    {{role.name}}
                 </label>
             </div>
         </div>
-
+<hr>
     </div>
 </div>

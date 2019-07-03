@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store'
 import * as UserActions from './../actions/user.actions'
 import { User } from 'src/app/models/user';
 
@@ -11,7 +10,7 @@ const initialState: User = {
 }
 
 //TODO: how to do EDIT USER reducer?
-export function reducer(state: User[] = [initialState], action: UserActions.Actions) {
+export function userReducer(state: User[] = [/*inital state*/], action: UserActions.Actions) {
 	switch (action.type) {
 		case UserActions.ADD_USER:
 			return [...state, action.payload];

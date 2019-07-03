@@ -2,7 +2,7 @@
     <h5 class="card-header">User list</h5>
     <div class="card-body">
 
-        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" id="custom-scrollbar">
             <table *ngIf="users" class="table table-sm table-hover table-bordered">
                 <thead>
                     <tr>
@@ -13,55 +13,50 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of users | async; let i = index">
+                    <tr *ngFor="let user of users | async; let i = index" (click)="selectRow(user, i)" [ngClass]="{'table-active': i === userIndex}">
                         <th scope="row">{{user.userId}}</th>
                         <td>{{user.fullName}}</td>
                         <td><span *ngFor="let role of user.roleNames">{{role}},</span></td>
                         <td>{{user.description}}</td>
-                    </tr>                
+                    </tr>
                 </tbody>
             </table>
         </div>
         <hr>
-        <form>
-            <div class="form-row">
-                <div class="col-5">
-                    <input type="text" class="form-control" placeholder="Full name">
-                </div>
-                <div class="col-3">
-                    <input type="text" class="form-control" placeholder="Description">
-                </div>
-                <div class="col">
-                    <button class="btn btn-info">Update</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-danger">Remove</button>
-                </div>
+        <div class="form-row">
+            <div class="col-5">
+                <input type="text" class="form-control" placeholder="Full name" #userNameInput>
             </div>
-        </form>
+            <div class="col-3">
+                <input type="text" class="form-control" placeholder="Description" #userDescriptionInput>
+            </div>
+            <div class="col">
+                <button class="btn btn-info" [disabled]="!selectedUser">Update</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-danger" (click)="onDeleteClick()" [disabled]="!selectedUser">Remove</button>
+            </div>
+        </div>
 
-
-        <button class="btn btn-secondary btn-sm dropdown-toggle add-user-button" role="button" aria-expanded="false" (click)="toggleStatus()">
+        <button class="btn btn-secondary btn-sm dropdown-toggle add-user-button" role="button" aria-expanded="false"
+            (click)="toggleStatus()">
             Add user
         </button>
 
-        <div
-        [ngClass]="status ? 'reveal' : 'hide'">
+        <div [ngClass]="status ? 'reveal' : 'hide'">
             <div class="card card-body">
-                <form>
                     <div class="form-row">
                         <div class="col-5">
-                            <input type="text" class="form-control" placeholder="AD">
+                            <input type="text" class="form-control" placeholder="AD"  #userAddADInput>
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" placeholder="Description">
+                            <input type="text" class="form-control" placeholder="Description" #userAddDescriptionInput>
                         </div>
                         <div class="col">
-                            <button class="btn btn-info">Add</button>
-                        </div>                                            
+                            <button class="btn btn-info" (click)="onAddClick(userAddADInput.value, userAddDescriptionInput.value)">Add</button>
+                        </div>
                     </div>
                     <small>Note: Name will be read from AD</small>
-                </form>
             </div>
         </div>
     </div>

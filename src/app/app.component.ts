@@ -4,6 +4,7 @@ import { HttpService } from './services/HttpService';
 import { Store } from '@ngrx/store';
 import { AppState } from './ngrx/app.state';
 import * as UserActions from './ngrx/actions/user.actions';
+import * as RolesWithPrivilegesAction from './ngrx/actions/roles-with-privileges.actions'
 import { RolesWithPrivilege } from './models/RolesWithPrivilege';
 
 
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getUsersHttpToRedux();
     this.getCompletePrivileges();
+    this.getRolesHttpToRedux();
   }
 
   //for testing purposes
@@ -46,6 +48,22 @@ export class AppComponent implements OnInit {
           this.users$.forEach((user: User) => this.store.dispatch(new UserActions.AddUser(user)));
         }
       );
+  }
+
+  getRolesHttpToRedux() {
+    this._httpService.getCompletePrivileges()
+      .subscribe(
+        (data: RolesWithPrivilege[]) => {
+          this.roles$ = data["rolesWithPrivileges"];
+        },
+        () => {
+          console.log("error loading roles");
+        },
+        () => {
+          console.log(this.roles$);
+          this.roles$.forEach((role: RolesWithPrivilege) => this.store.dispatch(new RolesWithPrivilegesAction.AddRole(role)));
+        }
+      )
   }
 
 }

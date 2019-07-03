@@ -17,7 +17,8 @@ import { SpecificItemsComponent } from './privileges/specific-items/specific-ite
 import { TreeviewModule } from 'ngx-treeview';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from './ngrx/reducers/user.reducer';
+import { userReducer } from './ngrx/reducers/user.reducer';
+import { rolesReducer } from './ngrx/reducers/roles-with-privileges.reducer';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { reducer } from './ngrx/reducers/user.reducer';
     TreeviewModule.forRoot(),
     HttpClientModule,
     StoreModule.forRoot({
-      user: reducer
+      user: userReducer,
+      rolesWithPrivilege: rolesReducer
     })
   ],
   providers: [],
