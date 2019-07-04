@@ -56,9 +56,7 @@ export class RoleEditorComponent implements OnInit {
 
   onAddClick(roleAddName: string, roleAddDescription: string) {
 
-    //TODO: ALERT
     this.store.dispatch(new RolesWithPrivilegesActions.AddRole({ dbID: null, name: roleAddName, description: roleAddDescription, rolePrivileges: [] }));
-
   }
 
   onUpdateClick(roleUpdateName: string, roleUpdateDescription: string) {

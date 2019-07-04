@@ -7,6 +7,7 @@ import * as UserActions from './ngrx/actions/user.actions';
 import * as RolesWithPrivilegesAction from './ngrx/actions/roles-with-privileges.actions'
 import { RolesWithPrivilege } from './models/RolesWithPrivilege';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   completeSubscription$: Subscription;
   rolesSubscription$: Subscription;
 
-  constructor(public _httpService: HttpService, private store: Store<AppState>) {
+  constructor(public _httpService: HttpService, private store: Store<AppState>, private toastr: ToastrService) {
   }
   ngOnInit() {
     this.getUsersHttpToRedux();
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   getCompletePrivileges() {
     this.completeSubscription$ = this._httpService.getCompletePrivileges()
       .subscribe((data) => {
+        //TODO: testing
         console.log(data);
       });
   }
@@ -47,8 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.users = data["users"];
         },
         () => {
-          //TODO: TOAST
-          console.log("error loading users");
+          this.toastr.error("Could not load users","Error");
         },
         () => {
           this.users.forEach((user: User) => this.store.dispatch(new UserActions.AddUser(user)));
@@ -63,8 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.roles = data["rolesWithPrivileges"];
         },
         () => {
-          //TODO: TOAST
-          console.log("error loading roles");
+          this.toastr.error("Could not load roles","Error");
         },
         () => {
           this.roles.forEach((role: RolesWithPrivilege) => this.store.dispatch(new RolesWithPrivilegesAction.AddRole(role)));

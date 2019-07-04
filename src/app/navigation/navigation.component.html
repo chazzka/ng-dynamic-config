@@ -22,7 +22,15 @@
 
     <div class="buttons">
         <button class="btn btn-success">Save</button>
-        <button class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-secondary" (click)="cancelClicked()">Cancel</button>
     </div>
+
+    <ngx-smart-modal #myModal identifier="myModal">
+        <h1>Warning</h1>
+        <p>All changes will be lost</p>
+      
+        <button class="btn btn-info" (click)="reload()">Reload</button>
+        <button class="btn btn-warning" (click)="myModal.close()">Cancel</button>
+      </ngx-smart-modal>
 
 </nav>

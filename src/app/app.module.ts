@@ -19,6 +19,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './ngrx/reducers/user.reducer';
 import { rolesReducer } from './ngrx/reducers/roles-with-privileges.reducer';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSmartModalModule } from 'ngx-smart-modal';
 
 @NgModule({
   declarations: [
@@ -36,10 +40,14 @@ import { rolesReducer } from './ngrx/reducers/roles-with-privileges.reducer';
     SpecificItemsComponent,
   ],
   imports: [
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     TreeviewModule.forRoot(),
     HttpClientModule,
+    NgxSmartModalModule.forRoot(),
     StoreModule.forRoot({
       user: userReducer,
       rolesWithPrivilege: rolesReducer

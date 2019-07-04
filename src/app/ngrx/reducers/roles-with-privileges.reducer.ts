@@ -1,5 +1,6 @@
 import * as RolesWithPrivilegesActions from '../actions/roles-with-privileges.actions';
 import { RolesWithPrivilege } from 'src/app/models/RolesWithPrivilege';
+import { ToastrService } from 'ngx-toastr';
 
 const initialState: RolesWithPrivilege = {
     dbID: null,
@@ -17,8 +18,7 @@ export function rolesReducer(state: Map<string, RolesWithPrivilege>, action: Rol
             if (!newMap.has(action.payload.name)) {
                 newMap = newMap.set(action.payload.name, action.payload);
             } else {
-                //TODO: Toast
-                alert("already exists toast");
+                alert("This role already exists")                
             }
             return newMap;
         }
@@ -36,8 +36,7 @@ export function rolesReducer(state: Map<string, RolesWithPrivilege>, action: Rol
             tempMap.delete(action.payload.oldRoleName);
             //jmeno uz existuje?
             if(tempMap.has(action.payload.newRole.name)) {
-                //TODO: toast
-                alert("already exists");
+                alert("This role already exists");
             } else if(action.payload.oldRoleName === action.payload.newRole.name) {
                 //přepisujeme pouze description
                 return newMap.set(action.payload.oldRoleName, action.payload.newRole);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSmartModalService } from 'ngx-smart-modal';
 
 @Component({
   selector: 'app-navigation',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor() { }
+  constructor(public ngxSmartModalService: NgxSmartModalService) { }
 
   ngOnInit() {
+  }
+
+  cancelClicked() {
+    this.ngxSmartModalService.getModal("myModal").open();    
+  }
+
+  reload() {
+    location.reload();
   }
 
 }
