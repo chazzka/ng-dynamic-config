@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from './models/user';
 import { HttpService } from './services/HttpService';
 import { Store } from '@ngrx/store';
@@ -6,6 +6,7 @@ import { AppState } from './ngrx/app.state';
 import * as UserActions from './ngrx/actions/user.actions';
 import * as RolesWithPrivilegesAction from './ngrx/actions/roles-with-privileges.actions'
 import { RolesWithPrivilege } from './models/RolesWithPrivilege';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,11 +14,15 @@ import { RolesWithPrivilege } from './models/RolesWithPrivilege';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'ng-dynamic-config';
 
-  users$: User[];
-  roles$: RolesWithPrivilege[];
+  users: User[];
+  roles: RolesWithPrivilege[];
+
+  usersSubscription$: Subscription;
+  completeSubscription$: Subscription;
+  rolesSubscription$: Subscription;
 
   constructor(public _httpService: HttpService, private store: Store<AppState>) {
   }
@@ -29,41 +34,48 @@ export class AppComponent implements OnInit {
 
   //for testing purposes
   getCompletePrivileges() {
-    this._httpService.getCompletePrivileges()
+    this.completeSubscription$ = this._httpService.getCompletePrivileges()
       .subscribe((data) => {
         console.log(data);
       });
   }
 
   getUsersHttpToRedux() {
-    this._httpService.getCompletePrivileges()
+    this.usersSubscription$ = this._httpService.getCompletePrivileges()
       .subscribe(
         (data: User[]) => {
-          this.users$ = data["users"];
+          this.users = data["users"];
         },
         () => {
+          //TODO: TOAST
           console.log("error loading users");
         },
         () => {
-          this.users$.forEach((user: User) => this.store.dispatch(new UserActions.AddUser(user)));
+          this.users.forEach((user: User) => this.store.dispatch(new UserActions.AddUser(user)));
         }
       );
   }
 
   getRolesHttpToRedux() {
-    this._httpService.getCompletePrivileges()
+    this.rolesSubscription$ = this._httpService.getCompletePrivileges()
       .subscribe(
         (data: RolesWithPrivilege[]) => {
-          this.roles$ = data["rolesWithPrivileges"];
+          this.roles = data["rolesWithPrivileges"];
         },
         () => {
+          //TODO: TOAST
           console.log("error loading roles");
         },
         () => {
-          console.log(this.roles$);
-          this.roles$.forEach((role: RolesWithPrivilege) => this.store.dispatch(new RolesWithPrivilegesAction.AddRole(role)));
+          this.roles.forEach((role: RolesWithPrivilege) => this.store.dispatch(new RolesWithPrivilegesAction.AddRole(role)));
         }
       )
+  }
+
+  ngOnDestroy() {
+    this.usersSubscription$.unsubscribe();
+    this.completeSubscription$.unsubscribe();
+    this.rolesSubscription$.unsubscribe();
   }
 
 }

@@ -11,9 +11,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let role of rolesWithPrivilege | async; let i = index" (click)="selectRow(role, i)" [ngClass]="{'table-active': i === roleIndex}">
-                    <th scope="row">{{role.name}}</th>
-                    <td>{{role.description}}</td>
+                    <tr *ngFor="let role of rolesWithPrivilege$ | async | keyvalue; let i = index" (click)="selectRow(role.value, i)" [ngClass]="{'table-active': i === roleIndex}">
+                    <th scope="row">{{role.value.name}}</th>
+                    <td>{{role.value.description}}</td>
                         <!-- <td><span *ngFor="let privilege of role.rolePrivileges">{{privilege.levelName}}, </span></td> -->
                     </tr>                
                 </tbody>
@@ -29,7 +29,7 @@
                     <input type="text" class="form-control" placeholder="Description" #roleDescriptionInput>
                 </div>
                 <div class="col">
-                    <button class="btn btn-info" [disabled]="!selectedRole">Update</button>
+                    <button class="btn btn-info" [disabled]="!selectedRole" (click)="onUpdateClick(roleNameInput.value, roleDescriptionInput.value)">Update</button>
                 </div>
                 <div class="col">
                     <button class="btn btn-danger" [disabled]="!selectedRole" (click)="onDeleteClick()">Remove</button>

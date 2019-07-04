@@ -9,7 +9,6 @@ const initialState: User = {
     userId: null
 }
 
-//TODO: how to do EDIT USER reducer?
 export function userReducer(state: User[] = [/*inital state*/], action: UserActions.Actions) {
 	switch (action.type) {
 		case UserActions.ADD_USER:

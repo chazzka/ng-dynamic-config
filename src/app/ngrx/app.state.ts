@@ -3,5 +3,5 @@ import { RolesWithPrivilege } from '../models/RolesWithPrivilege';
 
 export interface AppState {
     readonly user: User[];
-    readonly rolesWithPrivilege: RolesWithPrivilege[];
+    readonly rolesWithPrivilege: Map<string,RolesWithPrivilege>;
 }

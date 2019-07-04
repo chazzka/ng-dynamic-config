@@ -12,10 +12,10 @@ import * as UserActions from '../../ngrx/actions/user.actions';
 })
 export class UserListComponent implements OnInit {
 
-  @ViewChild('userNameInput', {static: false}) userNameInput: ElementRef;
-  @ViewChild('userDescriptionInput', {static: false}) userDescriptionInput: ElementRef;
+  @ViewChild('userNameInput', { static: false }) userNameInput: ElementRef;
+  @ViewChild('userDescriptionInput', { static: false }) userDescriptionInput: ElementRef;
 
-  users: Observable<User[]>
+  users$: Observable<User[]>
 
   status: boolean = false;
 
@@ -23,8 +23,8 @@ export class UserListComponent implements OnInit {
 
   userIndex: number;
 
-  constructor(private store: Store<AppState>) { 
-    this.users = store.select("user");
+  constructor(private store: Store<AppState>) {
+    this.users$ = store.select("user");
   }
 
   ngOnInit() {
@@ -34,12 +34,12 @@ export class UserListComponent implements OnInit {
     this.status = !this.status;
   }
 
-  selectRow(user: User, index:number) {
+  selectRow(user: User, index: number) {
     this.userIndex = index;
     this.selectedUser = user;
-    if(user.fullName)
+    if (user.fullName)
       this.userNameInput.nativeElement.value = user.fullName;
-    if(user.description) {
+    if (user.description) {
       this.userDescriptionInput.nativeElement.value = user.description;
     } else {
       this.userDescriptionInput.nativeElement.value = "";
@@ -47,7 +47,7 @@ export class UserListComponent implements OnInit {
   }
 
   onDeleteClick() {
-    if(this.selectedUser) {
+    if (this.selectedUser) {
       this.store.dispatch(new UserActions.RemoveUser(this.userIndex));
     }
   }
@@ -55,9 +55,9 @@ export class UserListComponent implements OnInit {
   onAddClick(userAddAD: string, userAddDescription: string) {
     //GET USER BY HIS AD NUMBER
 
-    
+
     //THEN dispatch
-    this.store.dispatch(new UserActions.AddUser({dbID: null, description: userAddDescription, fullName: "", roleNames: [], userId: userAddAD }));
+    this.store.dispatch(new UserActions.AddUser({ dbID: null, description: userAddDescription, fullName: "", roleNames: [], userId: userAddAD }));
   }
 
 }

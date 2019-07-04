@@ -12,13 +12,13 @@ import { User } from 'src/app/models/user';
 })
 export class UserRolesAssignComponent implements OnInit {
 
-  users: Observable<User[]>;
-  rolesWithPrivilege: Observable<RolesWithPrivilege[]>;
+  users$: Observable<User[]>;
+  rolesWithPrivilege$: Observable<Map<string, RolesWithPrivilege>>;
 
   constructor(private store: Store<AppState>) {
-    this.rolesWithPrivilege = this.store.select("rolesWithPrivilege");
-    this.users = this.store.select("user");
-   }
+    this.rolesWithPrivilege$ = this.store.select("rolesWithPrivilege");
+    this.users$ = this.store.select("user");
+  }
 
   ngOnInit() {
   }

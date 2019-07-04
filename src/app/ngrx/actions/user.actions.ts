@@ -19,7 +19,6 @@ export class RemoveUser implements Action {
     }
 }
 
-//TODO: HOW TO DO EDITUSER?
 export class EditUser implements Action {
     readonly type = EDIT_USER;
 

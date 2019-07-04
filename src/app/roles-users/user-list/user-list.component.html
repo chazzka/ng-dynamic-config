@@ -3,7 +3,7 @@
     <div class="card-body">
 
         <div class="table-wrapper-scroll-y my-custom-scrollbar" id="custom-scrollbar">
-            <table *ngIf="users" class="table table-sm table-hover table-bordered">
+            <table *ngIf="users$" class="table table-sm table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Ondex ID</th>
@@ -13,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of users | async; let i = index" (click)="selectRow(user, i)" [ngClass]="{'table-active': i === userIndex}">
+                    <tr *ngFor="let user of users$ | async; let i = index" (click)="selectRow(user, i)" [ngClass]="{'table-active': i === userIndex}">
                         <th scope="row">{{user.userId}}</th>
                         <td>{{user.fullName}}</td>
                         <td><span *ngFor="let role of user.roleNames">{{role}},</span></td>
