@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
-
+import { FormsModule }   from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +41,7 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     BrowserModule,

@@ -15,7 +15,7 @@ export class UserListComponent implements OnInit {
   @ViewChild('userNameInput', { static: false }) userNameInput: ElementRef;
   @ViewChild('userDescriptionInput', { static: false }) userDescriptionInput: ElementRef;
 
-  users$: Observable<User[]>
+  users$: Observable<Map<number, User>>;
 
   status: boolean = false;
 
@@ -46,18 +46,32 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  onAddClick(userAddAD: string, userAddDescription: string) {
+    //TODO: GET USER BY HIS AD NUMBER, klasik http request
+    //pokud tam bude, Importni ho s jeho ID
+
+
+    //jinak se zeptej jestli chce a pokud ano (vyuzij modal) tak ho importni s UserID = toUpper(fullname)
+    this.store.dispatch(new UserActions.ImportUser({ dbID: null, description: userAddDescription, fullName: "", roleNames: [], userId: userAddAD.toLocaleUpperCase() }));
+  }
+
   onDeleteClick() {
     if (this.selectedUser) {
-      this.store.dispatch(new UserActions.RemoveUser(this.userIndex));
+      this.store.dispatch(new UserActions.RemoveUser(this.selectedUser));
+      this.resetTable();
     }
   }
 
-  onAddClick(userAddAD: string, userAddDescription: string) {
-    //GET USER BY HIS AD NUMBER
+  onUpdateClick(userUpdateName: string, userUpdateDescription: string) {
+    this.store.dispatch(new UserActions.UpdateUser({ oldUserId: this.selectedUser.dbID, newUser: { dbID: this.selectedUser.dbID, fullName: userUpdateName, description: userUpdateDescription, userId: this.selectedUser.userId, roleNames: this.selectedUser.roleNames } }));
+    this.resetTable();
+  }
 
-
-    //THEN dispatch
-    this.store.dispatch(new UserActions.AddUser({ dbID: null, description: userAddDescription, fullName: "", roleNames: [], userId: userAddAD }));
+  resetTable() {
+    this.selectedUser = null;
+    this.userNameInput.nativeElement.value = "";
+    this.userDescriptionInput.nativeElement.value = "";
+    this.userIndex = null;
   }
 
 }

@@ -2,24 +2,28 @@
     <h5 class="card-header">User roles assign</h5>
     <div class="card-body">
         User:
-        <select class="custom-select" id="user-roles-assign-select">
-            <option *ngFor="let user of users$ | async" value="{{user.dbID}}">{{user.fullName}}</option>
-            <!-- <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option> -->
+        <select class="custom-select" id="user-roles-assign-select" [(ngModel)]="selectedUserID"
+            (change)="userChanged(selectedUserID)">
+            <option *ngFor="let user of users$ | async | keyvalue" [value]="user.value.dbID">{{user.value.fullName}}
+            </option>
         </select>
 
         <hr>
         <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <h5>Roles</h5>
-            <div *ngFor="let role of rolesWithPrivilege$ | async | keyvalue" class="form-check">
-                <input class="form-check-input" type="checkbox" value="{{role.value.dbID}}" id="{{role.value.dbID}}">
-                <label class="form-check-label" for="{{role.value.dbID}}">
-                    {{role.value.name}}
-                </label>
-            </div>
+            <ng-container *ngIf="selectedUserID">
+                <div *ngFor="let role of rolesWithPrivilege$ | async | keyvalue" class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{role.value.dbID}}" id="{{role.value.dbID}}"
+                        [checked]="rolesCheckboxes[role.value.name]" (change)="checkboxChanged($event,role.value)">
+                    <label class="form-check-label" for="{{role.value.dbID}}">
+                        {{role.value.name}}
+                    </label>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!selectedUserID">
+                Select a user first.
+            </ng-container>            
         </div>
-<hr>
+        <hr>
     </div>
 </div>

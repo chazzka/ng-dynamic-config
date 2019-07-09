@@ -21,4 +21,8 @@ export class NavigationComponent implements OnInit {
     location.reload();
   }
 
+  save() {
+    //TODO: save
+  }
+
 }

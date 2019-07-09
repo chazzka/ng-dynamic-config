@@ -52,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.toastr.error("Could not load users","Error");
         },
         () => {
-          this.users.forEach((user: User) => this.store.dispatch(new UserActions.AddUser(user)));
+          this.users.forEach((user: User) => this.store.dispatch(new UserActions.ImportUser(user)));
         }
       );
   }

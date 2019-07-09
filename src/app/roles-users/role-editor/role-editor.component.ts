@@ -48,19 +48,19 @@ export class RoleEditorComponent implements OnInit {
 
   }
 
-  onDeleteClick() {
-    if (this.selectedRole) {
-      this.store.dispatch(new RolesWithPrivilegesActions.RemoveRole(this.selectedRole));
-    }
-  }
-
   onAddClick(roleAddName: string, roleAddDescription: string) {
 
     this.store.dispatch(new RolesWithPrivilegesActions.AddRole({ dbID: null, name: roleAddName, description: roleAddDescription, rolePrivileges: [] }));
   }
 
-  onUpdateClick(roleUpdateName: string, roleUpdateDescription: string) {
+  onDeleteClick() {
+    if (this.selectedRole) {
+      this.store.dispatch(new RolesWithPrivilegesActions.RemoveRole(this.selectedRole));
+      this.resetTable();
+    }
+  }
 
+  onUpdateClick(roleUpdateName: string, roleUpdateDescription: string) {
     this.store.dispatch(new RolesWithPrivilegesActions.UpdateRole({ oldRoleName: this.selectedRole.name, newRole: { dbID: null, name: roleUpdateName, description: roleUpdateDescription, rolePrivileges: [] } }));
     this.resetTable();
   }
