@@ -24,7 +24,7 @@ export class UserListComponent implements OnInit {
   userIndex: number;
 
   constructor(private store: Store<AppState>) {
-    this.users$ = store.select("user");
+    this.users$ = store.select("users");
   }
 
   ngOnInit() {

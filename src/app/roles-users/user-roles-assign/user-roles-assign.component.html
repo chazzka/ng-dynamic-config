@@ -4,7 +4,15 @@
         User:
         <select class="custom-select" id="user-roles-assign-select" [(ngModel)]="selectedUserID"
             (change)="userChanged(selectedUserID)">
-            <option *ngFor="let user of users$ | async | keyvalue" [value]="user.value.dbID">{{user.value.fullName}}
+            <option *ngFor="let user of users$ | async | keyvalue" [value]="user.value.dbID">
+                <ng-container *ngIf="user.value.fullName; else elseTemplate">
+                    {{user.value.fullName}}
+                </ng-container>
+                <ng-template #elseTemplate>
+                     #User without name
+                </ng-template>
+
+
             </option>
         </select>
 
@@ -22,7 +30,7 @@
             </ng-container>
             <ng-container *ngIf="!selectedUserID">
                 Select a user first.
-            </ng-container>            
+            </ng-container>
         </div>
         <hr>
     </div>

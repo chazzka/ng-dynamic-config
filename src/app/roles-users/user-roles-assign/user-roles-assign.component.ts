@@ -23,7 +23,7 @@ export class UserRolesAssignComponent implements OnInit, OnDestroy {
   
   constructor(private store: Store<AppState>) {
     this.rolesWithPrivilege$ = this.store.select("rolesWithPrivilege");
-    this.users$ = this.store.select("user");
+    this.users$ = this.store.select("users");
   }
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class UserRolesAssignComponent implements OnInit, OnDestroy {
     
     //find this user
 
-    this.usersSubscription = this.store.select("user").subscribe((map: Map<number, User>) => {
+    this.usersSubscription = this.store.select("users").subscribe((map: Map<number, User>) => {
       let user: User = map.get(Number(this.selectedUserID));
       this.selectedUser = user;
       if(user.roleNames) {

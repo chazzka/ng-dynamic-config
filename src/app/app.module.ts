@@ -50,7 +50,7 @@ import { FormsModule }   from '@angular/forms';
     HttpClientModule,
     NgxSmartModalModule.forRoot(),
     StoreModule.forRoot({
-      user: userReducer,
+      users: userReducer,
       rolesWithPrivilege: rolesReducer
     })
   ],
