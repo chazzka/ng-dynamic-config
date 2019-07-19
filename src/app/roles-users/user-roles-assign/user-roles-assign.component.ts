@@ -6,6 +6,7 @@ import { AppState } from 'src/app/ngrx/app.state';
 import { User } from 'src/app/models/user';
 import * as UserActions from '../../ngrx/actions/user.actions';
 import _ from 'lodash';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-roles-assign',
@@ -20,38 +21,43 @@ export class UserRolesAssignComponent implements OnInit, OnDestroy {
   selectedUser: User;
   rolesCheckboxes: {} = {};
   usersSubscription: Subscription;
-  
-  constructor(private store: Store<AppState>) {
+  userChangeSubscription: Subscription;
+
+  constructor(private store: Store<AppState>, private userService: UserService) {
     this.rolesWithPrivilege$ = this.store.select("rolesWithPrivilege");
     this.users$ = this.store.select("users");
   }
 
   ngOnInit() {
+    //if user was deleted, clear selection to prevent confusion
+    this.userChangeSubscription = this.userService.userChanged.subscribe(() => {
+      this.selectedUserID = null;
+    })
   }
 
   userChanged(selectedUserDbID) {
     //on user change, clear all property changes (they are saved in storage)
     this.rolesCheckboxes = {};
-    
+
     //find this user
 
     this.usersSubscription = this.store.select("users").subscribe((map: Map<number, User>) => {
       let user: User = map.get(Number(this.selectedUserID));
       this.selectedUser = user;
-      if(user.roleNames) {
+      if (user.roleNames) {
         user.roleNames.forEach(role => {
           this.rolesCheckboxes[role] = true;
         });
-      } 
+      }
     })
-    
-    
+
+
   }
 
   checkboxChanged(event, role: RolesWithPrivilege) {
-    
+
     this.rolesCheckboxes[role.name] = event.target.checked;
-   // console.log(Object.keys(this.checkedRoles));
+    // console.log(Object.keys(this.checkedRoles));
     //console.log(this.selectedUser);
     const checkedRoles = _.keys(_.pickBy(this.rolesCheckboxes));
 
@@ -59,10 +65,13 @@ export class UserRolesAssignComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.usersSubscription) {
+    if (this.usersSubscription) {
       this.usersSubscription.unsubscribe();
     }
-    
+    if (this.userChangeSubscription) {
+      this.userChangeSubscription.unsubscribe();
+    }
+
   }
 
 }

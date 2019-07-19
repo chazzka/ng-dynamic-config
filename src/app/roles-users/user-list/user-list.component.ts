@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/ngrx/app.state';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from 'src/app/models/user';
 import * as UserActions from '../../ngrx/actions/user.actions';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -23,7 +24,7 @@ export class UserListComponent implements OnInit {
 
   userIndex: number;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private userService: UserService) {
     this.users$ = store.select("users");
   }
 
@@ -60,6 +61,7 @@ export class UserListComponent implements OnInit {
       this.store.dispatch(new UserActions.RemoveUser(this.selectedUser));
       this.resetTable();
     }
+    this.userService.notifyUserAdded();
   }
 
   onUpdateClick(userUpdateName: string, userUpdateDescription: string) {
