@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { User } from './models/user';
 import { HttpService } from './services/HttpService';
 import { Store } from '@ngrx/store';
@@ -24,6 +24,12 @@ export class AppComponent implements OnInit, OnDestroy {
   usersSubscription$: Subscription;
   completeSubscription$: Subscription;
   rolesSubscription$: Subscription;
+
+  //prevent user from browser reload
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    $event.returnValue =true;
+  }
 
   constructor(public _httpService: HttpService, private store: Store<AppState>, private toastr: ToastrService) {
   }
