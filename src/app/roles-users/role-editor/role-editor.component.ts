@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/ngrx/app.state';
 import { Observable } from 'rxjs';
@@ -24,11 +24,11 @@ export class RoleEditorComponent implements OnInit {
   roleIndex: number;
 
   constructor(private store: Store<AppState>) {
-    this.rolesWithPrivilege$ = this.store.select("rolesWithPrivilege");
-
+    
   }
 
   ngOnInit() {
+    this.rolesWithPrivilege$ = this.store.select("rolesWithPrivilege");
   }
 
   toggleStatus() {
@@ -50,7 +50,14 @@ export class RoleEditorComponent implements OnInit {
 
   onAddClick(roleAddName: string, roleAddDescription: string) {
 
-    this.store.dispatch(new RolesWithPrivilegesActions.AddRole({ dbID: null, name: roleAddName, description: roleAddDescription, rolePrivileges: [] }));
+    let role: RolesWithPrivilege = {
+      dbID: null,
+      name: roleAddName,
+      description: roleAddDescription,
+      rolePrivileges: [],
+    }
+
+    this.store.dispatch(new RolesWithPrivilegesActions.AddRole(role));
   }
 
   onDeleteClick() {
@@ -58,6 +65,7 @@ export class RoleEditorComponent implements OnInit {
       this.store.dispatch(new RolesWithPrivilegesActions.RemoveRole(this.selectedRole));
       this.resetTable();
     }
+    this.rolesWithPrivilege$ = this.store.select("rolesWithPrivilege");  
   }
 
   onUpdateClick(roleUpdateName: string, roleUpdateDescription: string) {

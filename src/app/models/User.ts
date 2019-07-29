@@ -4,4 +4,5 @@ export interface User {
     fullName: string;
     roleNames: string[];
     userId: string;
+    removed?: boolean;
 }

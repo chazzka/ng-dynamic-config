@@ -15,9 +15,9 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserRolesAssignComponent implements OnInit, OnDestroy {
 
-  users$: Observable<Map<number, User>>;
+  users$: Observable<Map<string, User>>;
   rolesWithPrivilege$: Observable<Map<string, RolesWithPrivilege>>;
-  selectedUserID: number;
+  selectedUserID: string;
   selectedUser: User;
   rolesCheckboxes: {} = {};
   usersSubscription: Subscription;
@@ -41,8 +41,8 @@ export class UserRolesAssignComponent implements OnInit, OnDestroy {
 
     //find this user
 
-    this.usersSubscription = this.store.select("users").subscribe((map: Map<number, User>) => {
-      let user: User = map.get(Number(this.selectedUserID));
+    this.usersSubscription = this.store.select("users").subscribe((map: Map<string, User>) => {
+      let user: User = map.get(this.selectedUserID);
       this.selectedUser = user;
       if (user.roleNames) {
         user.roleNames.forEach(role => {
@@ -57,8 +57,6 @@ export class UserRolesAssignComponent implements OnInit, OnDestroy {
   checkboxChanged(event, role: RolesWithPrivilege) {
 
     this.rolesCheckboxes[role.name] = event.target.checked;
-    // console.log(Object.keys(this.checkedRoles));
-    //console.log(this.selectedUser);
     const checkedRoles = _.keys(_.pickBy(this.rolesCheckboxes));
 
     this.store.dispatch(new UserActions.RolesAssign({ user: this.selectedUser, roleNames: checkedRoles }));

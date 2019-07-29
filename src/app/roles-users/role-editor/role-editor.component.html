@@ -11,31 +11,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let role of rolesWithPrivilege$ | async | keyvalue; let i = index" (click)="selectRow(role.value, i)" [ngClass]="{'table-active': i === roleIndex}">
-                    <th scope="row">{{role.value.name}}</th>
-                    <td>{{role.value.description}}</td>
-                        <!-- <td><span *ngFor="let privilege of role.rolePrivileges">{{privilege.levelName}}, </span></td> -->
-                    </tr>                
+                    <ng-container *ngFor="let role of rolesWithPrivilege$ | async | keyvalue; let i = index">
+                        <tr *ngIf="!role.value.removed"
+                            (click)="selectRow(role.value, i)" [ngClass]="{'table-active': i === roleIndex}">
+                            <th scope="row">{{role.value.name}}</th>
+                            <td>{{role.value.description}}</td>
+                            <!-- <td><span *ngFor="let privilege of role.rolePrivileges">{{privilege.levelName}}, </span></td> -->
+                        </tr>
+                    </ng-container>
                 </tbody>
             </table>
         </div>
         <hr>
-        
-            <div class="form-row">
-                <div class="col-5">                                                            
-                    <input type="text" class="form-control" placeholder="Role" #roleNameInput>                    
-                </div>
-                <div class="col-3">
-                    <input type="text" class="form-control" placeholder="Description" #roleDescriptionInput>
-                </div>
-                <div class="col">
-                    <button class="btn btn-info" [disabled]="!selectedRole" (click)="onUpdateClick(roleNameInput.value, roleDescriptionInput.value)">Update</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-danger" [disabled]="!selectedRole" (click)="onDeleteClick()">Remove</button>
-                </div>
+
+        <div class="form-row">
+            <div class="col-5">
+                <input type="text" class="form-control" placeholder="Role" #roleNameInput>
             </div>
-        
+            <div class="col-3">
+                <input type="text" class="form-control" placeholder="Description" #roleDescriptionInput>
+            </div>
+            <div class="col">
+                <button class="btn btn-info" [disabled]="!selectedRole"
+                    (click)="onUpdateClick(roleNameInput.value, roleDescriptionInput.value)">Update</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-danger" [disabled]="!selectedRole" (click)="onDeleteClick()">Remove</button>
+            </div>
+        </div>
+
 
         <button class="btn btn-secondary btn-sm dropdown-toggle add-role-button" role="button" aria-expanded="false"
             (click)="toggleStatus()">
@@ -44,17 +48,18 @@
 
         <div [ngClass]="toggler ? 'reveal' : 'hide'">
             <div class="card card-body">
-                    <div class="form-row">
-                        <div class="col-5">
-                            <input type="text" class="form-control" placeholder="Role" #roleAddNameInput>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" placeholder="Description" #roleAddDescriptionInput>
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-info" (click)="onAddClick(roleAddNameInput.value, roleAddDescriptionInput.value)">Add</button>
-                        </div>
-                    </div>                    
+                <div class="form-row">
+                    <div class="col-5">
+                        <input type="text" class="form-control" placeholder="Role" #roleAddNameInput>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="Description" #roleAddDescriptionInput>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-info"
+                            (click)="onAddClick(roleAddNameInput.value, roleAddDescriptionInput.value)">Add</button>
+                    </div>
+                </div>
             </div>
         </div>
 

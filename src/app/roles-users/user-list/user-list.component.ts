@@ -16,7 +16,7 @@ export class UserListComponent implements OnInit {
   @ViewChild('userNameInput', { static: false }) userNameInput: ElementRef;
   @ViewChild('userDescriptionInput', { static: false }) userDescriptionInput: ElementRef;
 
-  users$: Observable<Map<number, User>>;
+  users$: Observable<Map<string, User>>;
 
   status: boolean = false;
 
@@ -51,21 +51,33 @@ export class UserListComponent implements OnInit {
     //TODO: GET USER BY HIS AD NUMBER, klasik http request
     //pokud tam bude, Importni ho s jeho ID
 
-
+    let user: User = {
+      dbID: null,
+      description: userAddDescription,
+      fullName: "",
+      roleNames: [],
+      userId: userAddAD.toLocaleUpperCase(),      
+    }
+    
     //jinak se zeptej jestli chce a pokud ano (vyuzij modal) tak ho importni s UserID = toUpper(fullname)
-    this.store.dispatch(new UserActions.ImportUser({ dbID: null, description: userAddDescription, fullName: "", roleNames: [], userId: userAddAD.toLocaleUpperCase() }));
+    //this.store.dispatch(new UserActions.ImportUser({ dbID: null, description: userAddDescription, fullName: "", roleNames: [], userId: userAddAD.toLocaleUpperCase() }));
+    this.store.dispatch(new UserActions.ImportUser(user));
+    this.selectedUser = user;
+    
   }
 
   onDeleteClick() {
     if (this.selectedUser) {
+
       this.store.dispatch(new UserActions.RemoveUser(this.selectedUser));
       this.resetTable();
     }
     this.userService.notifyUserAdded();
+    this.users$ = this.store.select("users");        
   }
 
   onUpdateClick(userUpdateName: string, userUpdateDescription: string) {
-    this.store.dispatch(new UserActions.UpdateUser({ oldUserId: this.selectedUser.dbID, newUser: { dbID: this.selectedUser.dbID, fullName: userUpdateName, description: userUpdateDescription, userId: this.selectedUser.userId, roleNames: this.selectedUser.roleNames } }));
+    this.store.dispatch(new UserActions.UpdateUser({ oldUserId: this.selectedUser.userId, newUser: { dbID: this.selectedUser.dbID, fullName: userUpdateName, description: userUpdateDescription, userId: this.selectedUser.userId, roleNames: this.selectedUser.roleNames } }));
     this.resetTable();
   }
 

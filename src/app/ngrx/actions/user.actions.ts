@@ -24,7 +24,7 @@ export class RemoveUser implements Action {
 export class UpdateUser implements Action {
     readonly type = UPDATE_USER;
 
-    constructor(public payload: { oldUserId: number, newUser: User }) {
+    constructor(public payload: { oldUserId: string, newUser: User }) {
     }
 }
 

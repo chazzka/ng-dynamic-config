@@ -2,9 +2,17 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+
+export const applicationNames = {
+  mapper: "MAPPER",
+  mockUserName: "ffff",
+  mockVersion: "123456"
+}
+
 export const environment = {
   production: false,
-  completePrivilegesUrl: 'http://agata.onsemi.com:60071/dynamic-configuration-business/api/privileges/complete?applicationName=MAPPER'
+  completePrivilegesUrl: 'http://agata.onsemi.com:60071/dynamic-configuration-business/api/privileges/complete?applicationName=' + applicationNames.mapper,
+  importPrivilegesUrl: `http://agata.onsemi.com:60071/dynamic-configuration-business/api/privileges/import?userName=${applicationNames.mockUserName}+&version=${applicationNames.mockVersion}`
 };
 
 /*

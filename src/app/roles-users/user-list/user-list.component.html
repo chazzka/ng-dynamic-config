@@ -13,17 +13,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of users$ | async | keyvalue; let i = index" (click)="selectRow(user.value, i)"
-                        [ngClass]="{'table-active': i === userIndex}">
-                        <th scope="row">{{user.value.userId}}</th>
-                        <td>{{user.value.fullName}}</td>
-                        <td>
-                            <span *ngFor="let role of user.value.roleNames; let j = index">
-                                {{role}}<span *ngIf="j < user.value.roleNames.length - 1">,</span>
-                            </span>
-                        </td>
-                        <td>{{user.value.description}}</td>
-                    </tr>
+                    <ng-container *ngFor="let user of users$ | async | keyvalue; let i = index">
+                        <tr *ngIf="!user.value.removed" (click)="selectRow(user.value, i)"
+                            [ngClass]="{'table-active': i === userIndex}">
+                            <th scope="row">{{user.value.userId}}</th>
+                            <td>{{user.value.fullName}}</td>
+                            <td>
+                                <span *ngFor="let role of user.value.roleNames; let j = index">
+                                    {{role}}<span *ngIf="j < user.value.roleNames.length - 1">,</span>
+                                </span>
+                            </td>
+                            <td>{{user.value.description}}</td>
+                        </tr>
+                    </ng-container>
                 </tbody>
             </table>
         </div>

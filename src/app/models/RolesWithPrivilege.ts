@@ -5,4 +5,5 @@ export interface RolesWithPrivilege {
     description: string;
     name: string;
     rolePrivileges: RolePrivilege[];
+    removed?: boolean;
 }

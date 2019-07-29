@@ -6,9 +6,8 @@ import { AppState } from './ngrx/app.state';
 import * as UserActions from './ngrx/actions/user.actions';
 import * as RolesWithPrivilegesAction from './ngrx/actions/roles-with-privileges.actions'
 import { RolesWithPrivilege } from './models/RolesWithPrivilege';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, Observable, combineLatest } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-
 
 @Component({
   selector: 'app-root',
@@ -25,25 +24,29 @@ export class AppComponent implements OnInit, OnDestroy {
   completeSubscription$: Subscription;
   rolesSubscription$: Subscription;
 
-  //prevent user from browser reload
+  
+  
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
-    $event.returnValue =true;
+    $event.returnValue = true;
   }
+  
 
-  constructor(public _httpService: HttpService, private store: Store<AppState>, private toastr: ToastrService) {
+  constructor(private _httpService: HttpService, private store: Store<AppState>, private toastr: ToastrService) {
   }
   ngOnInit() {
     this.getUsersHttpToRedux();
-    this.getCompletePrivileges();
+    //TODO: testing
+    //this.getCompletePrivileges();
     this.getRolesHttpToRedux();
+
+
   }
 
   //for testing purposes
   getCompletePrivileges() {
     this.completeSubscription$ = this._httpService.getCompletePrivileges()
-      .subscribe((data) => {
-        //TODO: testing
+      .subscribe((data) => {        
         console.log(data);
       });
   }
@@ -55,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.users = data["users"];
         },
         () => {
-          this.toastr.error("Could not load users","Error");
+          this.toastr.error("Could not load users", "Error");
         },
         () => {
           this.users.forEach((user: User) => this.store.dispatch(new UserActions.ImportUser(user)));
@@ -70,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.roles = data["rolesWithPrivileges"];
         },
         () => {
-          this.toastr.error("Could not load roles","Error");
+          this.toastr.error("Could not load roles", "Error");
         },
         () => {
           this.roles.forEach((role: RolesWithPrivilege) => this.store.dispatch(new RolesWithPrivilegesAction.AddRole(role)));

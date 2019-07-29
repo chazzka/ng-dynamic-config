@@ -2,14 +2,15 @@
     <h5 class="card-header">User roles assign</h5>
     <div class="card-body">
         User:
+        <small>*You can find user by opening the box and start typing his name</small>
         <select class="custom-select" id="user-roles-assign-select" [(ngModel)]="selectedUserID"
             (change)="userChanged(selectedUserID)">
-            <option *ngFor="let user of users$ | async | keyvalue" [value]="user.value.dbID">
+            <option *ngFor="let user of users$ | async | keyvalue" [value]="user.value.userId">
                 <ng-container *ngIf="user.value.fullName; else elseTemplate">
                     {{user.value.fullName}}
                 </ng-container>
                 <ng-template #elseTemplate>
-                     #User without name
+                     #User without name - ID: {{user.value.userId}}
                 </ng-template>
 
 
