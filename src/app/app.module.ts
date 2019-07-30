@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { FormsModule }   from '@angular/forms';
+import { DataTablesModule } from 'angular-datatables';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,11 +49,12 @@ import { FormsModule }   from '@angular/forms';
     AppRoutingModule,
     TreeviewModule.forRoot(),
     HttpClientModule,
+    DataTablesModule,
     NgxSmartModalModule.forRoot(),
     StoreModule.forRoot({
       users: userReducer,
       rolesWithPrivilege: rolesReducer
-    })
+    }),    
   ],
   providers: [],
   bootstrap: [AppComponent]

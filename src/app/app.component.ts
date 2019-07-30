@@ -53,8 +53,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getUsersHttpToRedux() {
     this.usersSubscription$ = this._httpService.getCompletePrivileges()
-      .subscribe(
+      .subscribe(        
         (data: User[]) => {
+          
           this.users = data["users"];
         },
         () => {

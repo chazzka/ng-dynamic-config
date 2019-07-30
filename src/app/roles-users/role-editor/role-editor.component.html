@@ -2,33 +2,37 @@
     <h5 class="card-header">Role editor</h5>
     <div class="card-body">
 
+
         <div class="table-wrapper-scroll-y my-custom-scrollbar" id="custom-scrollbar">
-            <table *ngIf="rolesWithPrivilege$ | async; else loading" class="table table-sm table-hover table-bordered">
+
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"
+                [hidden]="data.length < 1">
                 <thead>
                     <tr>
-                        <th scope="col">Role</th>
-                        <th scope="col">Description</th>
+                        <th>Role</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let role of rolesWithPrivilege$ | async | keyvalue; let i = index">
-                        <tr *ngIf="!role.value.removed"
-                            (click)="selectRow(role.value, i)" [ngClass]="{'table-active': i === roleIndex}">
-                            <th scope="row">{{role.value.name}}</th>
-                            <td>{{role.value.description}}</td>
-                            <!-- <td><span *ngFor="let privilege of role.rolePrivileges">{{privilege.levelName}}, </span></td> -->
+                    <ng-container *ngFor="let role of data; let i = index">
+
+                        <tr *ngIf="!role.removed" (click)="selectRow(role, i)"
+                            [ngClass]="{'table-active': i === roleIndex}">
+                            <td>{{ role.name }}</td>
+                            <td>{{ role.description }}</td>
                         </tr>
                     </ng-container>
                 </tbody>
             </table>
-            <ng-template #loading>
+            <div [hidden]="data">
                 <div class="d-flex justify-content-center">
                     <div class="spinner-border" role="status">
-                      <span class="sr-only">Loading...</span>
+                        <span class="sr-only">Loading...</span>
                     </div>
-                  </div>
-            </ng-template>
+                </div>
+            </div>
         </div>
+
         <hr>
 
         <div class="form-row">
