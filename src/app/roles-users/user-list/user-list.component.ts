@@ -38,8 +38,12 @@ export class UserListComponent implements OnInit {
   selectRow(user: User, index: number) {
     this.userIndex = index;
     this.selectedUser = user;
-    if (user.fullName)
+    if (user.fullName) {
       this.userNameInput.nativeElement.value = user.fullName;
+    } else {
+      this.userNameInput.nativeElement.value = "";
+    }
+      
     if (user.description) {
       this.userDescriptionInput.nativeElement.value = user.description;
     } else {

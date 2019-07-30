@@ -3,7 +3,7 @@
     <div class="card-body">
 
         <div class="table-wrapper-scroll-y my-custom-scrollbar" id="custom-scrollbar">
-            <table class="table table-sm table-hover table-bordered">
+            <table *ngIf="rolesWithPrivilege$ | async; else loading" class="table table-sm table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Role</th>
@@ -21,6 +21,13 @@
                     </ng-container>
                 </tbody>
             </table>
+            <ng-template #loading>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+            </ng-template>
         </div>
         <hr>
 
@@ -60,6 +67,7 @@
                             (click)="onAddClick(roleAddNameInput.value, roleAddDescriptionInput.value)">Add</button>
                     </div>
                 </div>
+                <small>&#8205;</small>
             </div>
         </div>
 
