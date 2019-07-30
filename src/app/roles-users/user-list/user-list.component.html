@@ -2,14 +2,64 @@
     <h5 class="card-header">User list</h5>
     <div class="card-body">
 
+
+        <!-- NOVÁ VERZE LEPŠÍ TABULKA -->
         <div class="table-wrapper-scroll-y my-custom-scrollbar" id="custom-scrollbar">
+
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"
+                 [hidden]="data && data.length < 1">
+                <thead>
+                    <tr>
+                        <th>Ondex ID</th>
+                        <th>Name</th>
+                        <th>Roles</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let user of data; let i = index">
+                        <tr *ngIf="!user.removed" (click)="selectRow(user, i)"
+                            [ngClass]="{'table-active': i === userIndex}">
+                            <td>{{ user.userId }}</td>
+                            <td>{{ user.fullName }}</td>
+                            <td>
+                                <span *ngFor="let role of user.roleNames; let j = index">
+                                    {{role}}<span *ngIf="j < user.roleNames.length - 1">,</span>
+                                </span>
+                            </td>
+                            <td>{{ user.description }}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+            <!-- <ng-template #loading>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </ng-template> -->
+
+            <!--            
+            <div [hidden]="data">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+
+        <!-- STARÁ VERZE -->
+        <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar" id="custom-scrollbar">
             <table *ngIf="users$ | async; else loading" class="table table-sm table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">Ondex ID</th>
-                        <th scope="col">Full Name</th>
-                        <th scope="col">Roles</th>
-                        <th scope="col">Description</th>
+                        <th>Ondex ID</th>
+                        <th>Full Name</th>
+                        <th>Roles</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,12 +81,12 @@
             <ng-template #loading>
                 <div class="d-flex justify-content-center">
                     <div class="spinner-border" role="status">
-                      <span class="sr-only">Loading...</span>
+                        <span class="sr-only">Loading...</span>
                     </div>
-                  </div>
-            </ng-template>
-            
-        </div>
+                </div>
+            </ng-template> -->
+
+
         <hr>
         <div class="form-row">
             <div class="col-5">

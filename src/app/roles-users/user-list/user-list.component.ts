@@ -1,22 +1,23 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/ngrx/app.state';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { User } from 'src/app/models/user';
 import * as UserActions from '../../ngrx/actions/user.actions';
 import { UserService } from 'src/app/services/user.service';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, AfterViewInit {
 
   @ViewChild('userNameInput', { static: false }) userNameInput: ElementRef;
   @ViewChild('userDescriptionInput', { static: false }) userDescriptionInput: ElementRef;
 
-  users$: Observable<Map<string, User>>;
+  //users$: Observable<Map<string, User>>;
 
   status: boolean = false;
 
@@ -24,11 +25,42 @@ export class UserListComponent implements OnInit {
 
   userIndex: number;
 
+
+  //DATATABLE
+  dtOptions: DataTables.Settings = {
+    "paging": false,
+    retrieve: true,
+    scrollY: "600",
+    info: false
+  };
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  data: any[];
+  dtTrigger: Subject<any> = new Subject();
+
+  users$: Subscription;
+
   constructor(private store: Store<AppState>, private userService: UserService) {
-    this.users$ = store.select("users");
   }
 
   ngOnInit() {
+    this.loadData();    
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+
+  }
+
+  loadData() {
+    this.users$ = this.store.select("users").subscribe((user: Map<string, User>) => {
+      if (user !== undefined) {
+        this.data = Array.from(user.values())
+        this.rerender();
+        this.dtTrigger.next();
+      }
+    })
   }
 
   toggleStatus() {
@@ -43,7 +75,7 @@ export class UserListComponent implements OnInit {
     } else {
       this.userNameInput.nativeElement.value = "";
     }
-      
+
     if (user.description) {
       this.userDescriptionInput.nativeElement.value = user.description;
     } else {
@@ -60,29 +92,32 @@ export class UserListComponent implements OnInit {
       description: userAddDescription,
       fullName: "",
       roleNames: [],
-      userId: userAddAD.toLocaleUpperCase(),      
+      userId: userAddAD.toLocaleUpperCase(),
     }
-    
+
     //jinak se zeptej jestli chce a pokud ano (vyuzij modal) tak ho importni s UserID = toUpper(fullname)
     //this.store.dispatch(new UserActions.ImportUser({ dbID: null, description: userAddDescription, fullName: "", roleNames: [], userId: userAddAD.toLocaleUpperCase() }));
     this.store.dispatch(new UserActions.ImportUser(user));
     this.selectedUser = user;
-    
+    this.rerender();
+
   }
 
   onDeleteClick() {
     if (this.selectedUser) {
-
       this.store.dispatch(new UserActions.RemoveUser(this.selectedUser));
       this.resetTable();
+      this.rerender();
     }
+    //TODO: MUSI TO TU BYT?
     this.userService.notifyUserAdded();
-    this.users$ = this.store.select("users");        
+    //this.users$ = this.store.select("users");
   }
 
   onUpdateClick(userUpdateName: string, userUpdateDescription: string) {
     this.store.dispatch(new UserActions.UpdateUser({ oldUserId: this.selectedUser.userId, newUser: { dbID: this.selectedUser.dbID, fullName: userUpdateName, description: userUpdateDescription, userId: this.selectedUser.userId, roleNames: this.selectedUser.roleNames } }));
     this.resetTable();
+    this.rerender();
   }
 
   resetTable() {
@@ -90,6 +125,17 @@ export class UserListComponent implements OnInit {
     this.userNameInput.nativeElement.value = "";
     this.userDescriptionInput.nativeElement.value = "";
     this.userIndex = null;
+  }
+
+  rerender(): void {
+    if (this.dtElement) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        // Destroy the table first
+        dtInstance.destroy();
+        // Call the dtTrigger to rerender again
+        this.dtTrigger.next();
+      });
+    }
   }
 
 }

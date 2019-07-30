@@ -6,7 +6,7 @@
         <div class="table-wrapper-scroll-y my-custom-scrollbar" id="custom-scrollbar">
 
             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"
-                [hidden]="data.length < 1">
+                [hidden]="data && data.length < 1">
                 <thead>
                     <tr>
                         <th>Role</th>
